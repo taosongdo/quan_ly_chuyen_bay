@@ -1,0 +1,54 @@
+{% extends "Layout/Base.html" %}
+{% block content %}
+    <form class="navbar-form navbar-left" action="/NhanVien/QuanLyLichChuyenBay" method="GET" style="margin: 20px auto">
+        <div class="input-group">
+            <input type="text" class="form-control" placeholder="ngày giờ" name="ngay_gio">
+            <input type="text" class="form-control" placeholder="chuyến bay" name="ten_chuyen_bay">
+            <div class="input-group-btn">
+                <button class="btn btn-primary" type="submit">
+                    tìm kiếm
+                </button>
+            </div>
+        </div>
+    </form>
+    {% if err %}
+        <div class="alert alert-info mt-1">chuyến bay này đã có vé</div>
+    {% endif %}
+    <div data-mdb-input-init class=" d-flex justify-content-center form-outline mb-4">
+        <a href="/NhanVien/QuanLyLichChuyenBay/LapLichChuyenBay" style="margin-left:20px" class="btn btn-primary">thêm
+            lịch chuyến bay</a>
+    </div>
+    {% if ds_lich_chuyen_bay %}
+        <table class="table table-hover">
+            <thead>
+            <tr>
+                <th scope="col">id lịch chuyến bay</th>
+                <th scope="col">chuyến bay</th>
+                <th scope="col">ngày giờ</th>
+                <th scope="col">thời gian bay</th>
+                <th scope="col">cập nhật</th>
+                <th scope="col">xóa</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for lich_chuyen_bay in ds_lich_chuyen_bay %}
+                <tr>
+                    <th scope="row">{{ lich_chuyen_bay.LichChuyenBay.id_chuyen_bay }}</th>
+                    <td>{{ lich_chuyen_bay.ChuyenBay }}</td>
+                    <td>{{ lich_chuyen_bay.LichChuyenBay.ngay_gio }}</td>
+                    <td>{{ lich_chuyen_bay.LichChuyenBay.thoi_gian_bay }}</td>
+                    <td>
+                        <a href="/NhanVien/QuanLyLichChuyenBay/CapNhatLichChuyenBay?id_lich_chuyen_bay={{ lich_chuyen_bay.ChuyenBay.id_chuyen_bay }}"
+                           class="btn btn-primary">cập nhật</a></td>
+                    <td>
+                        <a href="/NhanVien/QuanLyLichChuyenBay/XoaLichChuyenBay?id_lich_chuyen_bay={{ lich_chuyen_bay.ChuyenBay.id_chuyen_bay }}"
+                           class="btn btn-danger">xóa</a></td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    {% else %}
+        <div class="alert alert-info mt-1">Chưa có lịch chuyến bay nào</div>
+    {% endif %}
+
+{% endblock %}

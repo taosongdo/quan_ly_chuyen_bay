@@ -1,0 +1,72 @@
+{% extends "KhachHang/ThongTinNguoiDung/Header_KhachHang.html"%}
+{% block content%}
+<form action = "/XemThongTinNguoiDung/HuyVe?id_ve={{ve.Ve.id_ve}}" method = "POST" style = 'margin : 100px auto'>
+    {% if mes %}
+        <div class="alert alert-danger text-center mt-1">{{mes}}</div>
+    {% endif%}
+    <div data-mdb-input-init class="form-outline mb-4">
+        <input type="number" readonly id="id_ve" class="form-control" name="id_ve" value="{{ve.Ve.id_ve}}" />
+        <label class="form-label" for="id_ve">id vé</label>
+    </div>
+
+    <div data-mdb-input-init class="form-outline mb-4">
+        <input type="number" readonly id="id_chuyen_bay" class="form-control" name="id_chuyen_bay" value ="{{ve.ChuyenBay.id_chuyen_bay}}" />
+        <label class="form-label" for="id_chuyen_bay">id chuyến bay</label>
+    </div>
+
+    <div data-mdb-input-init class="form-outline mb-4">
+        <input type="text" readonly id="ten_tuyen_bay" class="form-control" name="ten_tuyen_bay" value ="{{ve.TuyenBay.ten_tuyen_bay}}" />
+        <label class="form-label" for="ten_tuyen_bay">tên tuyến bay</label>
+    </div>
+
+    <div data-mdb-input-init class="form-outline mb-4">
+        <input type="number" readonly id="hang" class="form-control" name="hang" value ="{{ve.Ghe.hang}}" />
+        <label class="form-label" for="hang">hạng ghế</label>
+    </div>
+
+    <div data-mdb-input-init class="form-outline mb-4">
+        <input type="number" readonly id="vi_tri" class="form-control" name="vi_tri" value ="{{ve.Ghe.vi_tri}}" />
+        <label class="form-label" for="hang">vị trí</label>
+    </div>
+
+    <div data-mdb-input-init class="form-outline mb-4">
+        <input type="text" readonly id="may_bay" class="form-control" name="may_bay" value ="{{ve.MayBay.ten_may_bay}}" />
+        <label class="form-label" for="may_bay">máy bay</label>
+    </div>
+    
+    <div data-mdb-input-init class="form-outline mb-4">
+        <input type="text" readonly id="ten_nhan_vien" class="form-control" name="ten_nhan_vien" value ="{% if ve.NhanVien %}{{ve.NhanVien.id_nhan_vien}}{% else %}online{% endif %}" />
+        <label class="form-label" for="ten_nhan_vien">id nhân viên</label>
+    </div>
+
+    <div data-mdb-input-init class="form-outline mb-4">
+        <input type="text" readonly id="ten_nhan_vien" class="form-control" name="ten_nhan_vien" value ="{% if ve.NhanVien %}{{ve.ten_nguoi_dung}}{% else %}online{% endif %}" />
+        <label class="form-label" for="ten_nhan_vien">tên nhân viên</label>
+    </div>
+
+    <div data-mdb-input-init class="form-outline mb-4">
+        <input type="number" id="so_tai_khoan" class="form-control" name="so_tai_khoan" />
+        <label class="form-label" for="so_tai_khoan">số tài khoản</label>
+    </div>
+    
+    <div data-mdb-input-init class="d-flex justify-content-center form-outline mb-4">
+        <table>
+            {% for hang in bang %}
+                <tr>
+                    {% for ngan_hang in hang %}
+                        <td>
+                            <input type="radio" class="btn-check" name='id_ngan_hang' value="{{ngan_hang.id_ngan_hang}}" id="id_ngan_hang_{{ngan_hang.id_ngan_hang}}" autocomplete="off" >
+                            <label class="btn btn-outline-success" for="id_ngan_hang_{{ngan_hang.id_ngan_hang}}">
+                                <img src="{{ngan_hang.hinh_anh}}" style="width:80px; height: 80px"/>
+                            </label>
+                        </td>
+                    {% endfor %}
+                </tr>
+            {% endfor %}
+        </table>
+    </div>
+    <div data-mdb-input-init class="d-flex justify-content-center form-outline mb-4">
+        <button type = "submit" data-mdb-button-init data-mdb-ripple-init class="btn btn-primary btn-block mb-4">hủy vé</button>
+    </div>
+</form>
+{% endblock %}

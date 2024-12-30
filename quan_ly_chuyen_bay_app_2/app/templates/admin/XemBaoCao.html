@@ -1,0 +1,182 @@
+{% extends 'admin/master.html' %}
+
+{% block body %}
+<h1 class="text-center text-danger mt-1" >THỐNG KÊ BÁO CÁO THÁNG</h1>
+
+<select class="form-control" id="selectThoiGian" onchange="thayDoiTheoThang()">
+  <option value ="tc"selected >tất cả</option>
+  {%for i in range(1,5) %}
+    <option value="q{{i}}">quý {{i}}</option>
+  {%endfor%}
+  {%for i in range(1,13) %}
+    <option value="t{{i}}">tháng {{i}}</option>
+  {%endfor%}
+</select>
+<select class="form-control mt-2" id="selectNam" onchange="thayDoiTheoThang()">
+  <option value="{{nam}}" selected>{{nam}}</option>
+  {%for i in range(1,21)%}
+    <option value="{{nam - i}}">{{nam - i}}</option>
+  {%endfor%}
+</select>
+  
+<div  class="row d-flex justify-content-center">
+  <div class="col-md-12 col-12 "> 
+    <table id="table" class="table"></table>
+  </div>
+</div>
+
+
+<div  class="row d-flex justify-content-center">
+    <div class="col-md-12 col-12"> 
+        <canvas id="myBarChart"></canvas>
+    </div>
+</div>
+
+<div class="row d-flex justify-content-center">
+  <div class="col-md-6 col-12 "> 
+      <canvas id="myPieChart"></canvas>
+  </div>
+</div>
+
+<div class="alert alert-info">
+  <h3>tổng doanh thu: <span id="tongDoanhThu"></span>VNĐ</h3>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+    var myBarChart
+    var myPieChart
+    veBang = function(dsTenTuyenBay,dsDoanhThu,dsLuotBay,dsTyLe)
+    {
+      table = document.getElementById("table").innerHTML
+      table = `
+                <tr>
+                  <th>tên tuyến bay</th>
+                  <th>tổng doanh thu</th>
+                  <th>tổng số lượt</th>
+                  <th>tỷ lệ</th>
+                </tr>
+              `
+
+      for(i = 0;i < dsTenTuyenBay.length;i++) 
+      {
+        table += `<tr><td>${dsTenTuyenBay[i]}</td>`
+        table += `<td>${ dsDoanhThu[i].toLocaleString() }</td>`
+        table += `<td>${ dsLuotBay[i] }</td>`
+        table += `<td>${ (dsTyLe[i]*100).toLocaleString() }%</td></tr>`
+      } 
+      document.getElementById("table").innerHTML = table
+    }
+    veDoThi = function(dsTenTuyenBay,dsDoanhThu,dsLuotBay,dsTyLe){
+      const ctxBarChart = document.getElementById('myBarChart');
+      const ctxPieChart = document.getElementById('myPieChart');
+      myBarChart = new Chart(ctxBarChart, {
+        type: 'bar',
+        data: {
+          labels: dsTenTuyenBay,
+          datasets: [{
+            label: 'Doanh thu',
+            data: dsDoanhThu,
+            borderWidth: 1
+          },{
+            label: 'Số Lượt Bay',
+            data: dsLuotBay,
+            borderWidth: 1
+          }]
+        },
+        options: {
+          scales: {
+            y: {
+              beginAtZero: true
+            }
+          }
+        }
+      });
+      myPieChart = new Chart(ctxPieChart,{
+        type: 'pie',
+        data: {
+          labels: dsTenTuyenBay,
+          datasets: [
+          {
+            label: 'Tỷ Lệ',
+            data: dsTyLe,
+          }]
+        },
+        options: {
+          scales: {
+            y: {
+              beginAtZero: true
+            }
+          }
+        }
+      });
+    }
+    capNhat = function(){
+      thoiGian = document.getElementById("selectThoiGian").value
+      nam = document.getElementById("selectNam").value
+      fetch('/api/LayDuLieuBaoCao', {
+        'method': 'post',
+        'body': JSON.stringify({
+            'thoi_gian': thoiGian,
+            'nam' : nam
+        }),
+        'headers': {
+            'Content-Type': 'application/json'
+        }
+      }).then(res => res.json()).then(data => {
+        console.log(data)
+        if(myBarChart){
+          myBarChart.destroy()
+          myPieChart.destroy()
+        }
+
+
+        dsDoanhThu = []
+        dsTenTuyenBay = []
+        dsLuotBay = []
+        tongDoanhThu = 0
+        dsTyLe = []
+
+        for (tenTuyenBay of data["ds_ten_tuyen_bay"]) {
+
+          dsTenTuyenBay.push(tenTuyenBay)
+
+          if (data["ds_doanh_thu"][tenTuyenBay] != null){
+            dsDoanhThu.push(parseInt(data["ds_doanh_thu"][tenTuyenBay]))
+            tongDoanhThu += parseInt(data["ds_doanh_thu"][tenTuyenBay])
+          }
+          else{
+            dsDoanhThu.push(0)
+          }
+
+          if (data["ds_luot_bay"][tenTuyenBay] != null){
+            dsLuotBay.push(parseInt(data["ds_luot_bay"][tenTuyenBay]))
+          }
+          else{
+            dsLuotBay.push(0)
+          }
+        }
+        for (tenTuyenBay of data["ds_ten_tuyen_bay"]) {
+          if(tongDoanhThu != 0 && data["ds_doanh_thu"][tenTuyenBay] != null){
+            dsTyLe.push(parseFloat(data["ds_doanh_thu"][tenTuyenBay])/parseFloat(tongDoanhThu))
+          }
+          else{
+            dsTyLe.push(0)
+          }
+        }
+
+
+        document.getElementById("tongDoanhThu").innerText = tongDoanhThu.toLocaleString()
+        veBang(dsTenTuyenBay,dsDoanhThu,dsLuotBay,dsTyLe)
+        veDoThi(dsTenTuyenBay,dsDoanhThu,dsLuotBay,dsTyLe)
+      })
+    }
+    thayDoiTheoThang = function(){
+      capNhat()
+    }       
+ 
+    window.onload = function() {
+      capNhat()
+    }
+</script>
+{% endblock %}

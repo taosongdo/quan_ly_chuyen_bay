@@ -1,0 +1,38 @@
+{% extends "KhachHang/ThongTinNguoiDung/Header_KhachHang.html"%}
+{% block content %}
+
+{% if ds_don_huy %}
+    <table class="table table-hover">
+        <thead>
+            <tr>
+                <th scope="col">id đơn hủy</th>
+                <th scope="col">id chuyến bay</th>
+                <th scope="col">tuyến bay</th>
+                <th scope="col">hạng ghế</th>
+                <th scope="col">vị trí</th>
+                <th scope="col">trạng thái</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for don_huy in ds_don_huy%}
+          <tr>
+            <th scope="row">{{don_huy.DonHuy.id_don_huy}}</th>
+            <td>{{don_huy.ChuyenBay.id_chuyen_bay}}</td>
+            <td>{{don_huy.TuyenBay.ten_tuyen_bay}}</td>
+            <td>{{don_huy.Ghe.hang}}</td>
+            <td>{{don_huy.Ghe.vi_tri}}</td>
+            <td>
+              {% if don_huy.NhanVien %}
+                <span style="color:green">đã hoàn tiền</span>
+              {% else %}
+                <span style="color:red">chưa xử lý</span>
+              {% endif %}
+            </td>
+          </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+{% else %}
+<div class="alert alert-info mt-1">không có đơn hủy nào</div>
+{%endif%}
+{% endblock %}

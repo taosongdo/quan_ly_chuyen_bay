@@ -1,0 +1,8 @@
+{% extends "Layout/Base.html" %}
+{% block content %}
+    {% if check %}
+        <h2 style="color: green;text-align:center;margin: 200px">thanh toán thành công</h2>
+    {% else %}
+        <h2 style="color: red;text-align:center;margin: 200px">thanh toán thất bại</h2>
+    {% endif %}
+{% endblock %}

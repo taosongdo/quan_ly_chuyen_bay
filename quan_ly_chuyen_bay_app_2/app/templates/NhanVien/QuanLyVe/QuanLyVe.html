@@ -1,0 +1,85 @@
+{% extends "Layout/Base.html" %}
+{% block content %}
+    <form class="navbar-form navbar-left" action="/NhanVien/QuanLyVe" method="GET" style="margin: 20px auto">
+        <div class="input-group">
+            <input type="text" class="form-control" placeholder="tên khách hàng" name="ten_nguoi_dung">
+            <select class="form-select" name="id_tuyen_bay" aria-label="Default select example">
+                <option selected value="None">tất cả</option>
+                {% for tuyen_bay in ds_tuyen_bay %}
+                    <option value="{{ tuyen_bay.id_tuyen_bay }}">{{ tuyen_bay.ten_tuyen_bay }}</option>
+                {% endfor %}
+            </select>
+            <div class="input-group-btn">
+                <button class="btn btn-primary" type="submit">
+                    tìm kiếm
+                </button>
+            </div>
+        </div>
+    </form>
+    <div data-mdb-input-init class="d-flex justify-content-center form-outline mb-4">
+        <a href="/NhanVien/QuanLyVe/BanVe" style="margin-left:20px" class="btn btn-primary">bán vé mới</a>
+    </div>
+    {% if ds_ve %}
+        <table class="table table-hover">
+            <thead>
+            <tr>
+                <th scope="col">id vé</th>
+                <th scope="col">id khách hàng</th>
+                <th scope-
+                "col">tên khách hàng</th>
+                <th scope="col">chuyến bay</th>
+                <th scope="col">tuyến bay</th>
+                <th scope="col">id nhân viên</th>
+                <th scope="col">tên nhân viên</th>
+                <th scope="col">hạng ghế</th>
+                <th scope="col">vị trí</th>
+                <th scope-
+                "col">máy bay</th>
+                <th scope-
+                "col">hình thức</th>
+                <th scope="col">cập nhật</th>
+                <th scope="col">xóa</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for ve in ds_ve %}
+                <tr>
+                    <th scope="row">{{ ve.Ve.id_ve }}</th>
+
+                    <td>{{ ve.NguoiDung.id_nguoi_dung }}</td>
+                    <td>{{ ve.NguoiDung.ten_nguoi_dung }}</td>
+                    <td>{{ ve.ChuyenBay.id_chuyen_bay }}</td>
+                    <td>{{ ve.TuyenBay.ten_tuyen_bay }}</td>
+
+
+                    {% if ve.NhanVien %}
+                        <td>{{ ve.NhanVien.id_nhan_vien }}</td>
+                        <td>{{ ve.ten_nguoi_dung }}</td>
+                    {% else %}
+                        <td>online</td>
+                        <td>online</td>
+                    {% endif %}
+
+                    <td>{{ ve.Ghe.hang }}</td>
+                    <td>{{ ve.Ghe.vi_tri }}</td>
+                    <td>{{ ve.MayBay.ten_may_bay }}</td>
+                    <td>
+                        {% if ve.hinh_thuc_thanh_toan %}
+                            online
+                        {% else %}
+                            trực tiếp
+                        {% endif %}
+                    </td>
+                    <td>
+                        <a href="/NhanVien/QuanLyVe/CapNhatVe?id_ve={{ ve.Ve.id_ve }}&#38;id_chuyen_bay={{ ve.ChuyenBay.id_chuyen_bay }}&#38;id_nguoi_dung={{ ve.KhachHang.id_khach_hang }}"
+                           class="btn btn-primary">cập nhật</a></td>
+                    <td><a href="/NhanVien/QuanLyVe/XoaVe?id_ve={{ ve.Ve.id_ve }}" class="btn btn-danger">xóa</a></td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    {% else %}
+        <div class="alert alert-info mt-1">không tìm thấy vé nào</div>
+    {% endif %}
+
+{% endblock %}

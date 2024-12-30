@@ -1,0 +1,63 @@
+{% extends "Layout/Base.html" %}
+{% block content %}
+    <form action="/QuenMatKhau?xac_minh_gmail={{ xac_minh_gmail }}" enctype="multipart/form-data"
+          style='margin : 100px auto' method='post'>
+        {% if err %}
+            <div class="alert alert-danger text-center mt-1">{{ err }}</div>
+        {% endif %}
+        <div {% if xac_minh_gmail %} style="display: none" {% endif %}>
+
+            <div data-mdb-input-init class="form-outline mb-4">
+                <input type="number" id="CCCD" {% if CCCD %} value = {{ CCCD }} {% endif %} class="form-control"
+                       name="CCCD"/>
+                <label class="form-label" for="CCCD">căn cước công dân</label>
+            </div>
+
+            <div data-mdb-input-init class="form-outline mb-4">
+                <input type="email" id="ten_nguoi_dung" {% if gmail %} value = {{ gmail }} {% endif %}class="form-control" name="gmail"/>
+                <label class="form-label" for="gmail">gmail</label>
+            </div>
+
+            <div data-mdb-input-init class="form-outline mb-4">
+                <input type="text" id="tai_khoan" {% if tai_khoan %} value = {{ tai_khoan }} {% endif %}class="form-control" name="tai_khoan"/>
+                <label class="form-label" for="tai_khoan">tài khoản</label>
+            </div>
+
+
+            <div data-mdb-input-init class="d-flex justify-content-center form-outline mb-4">
+                <button type="submit" data-mdb-button-init data-mdb-ripple-init class="btn btn-primary btn-block mb-4">
+                    xác nhận
+                </button>
+            </div>
+        </div>
+
+        {% if xac_minh_gmail == 1 %}
+            <div data-mdb-input-init class="form-outline mb-4">
+                <input type="text" id="ma_xac_minh" class="form-control" name="ma_xac_minh"/>
+                <label class="form-label" for="ma_xac_minh">mã xác minh</label>
+            </div>
+
+            <div data-mdb-input-init class="d-flex justify-content-center form-outline mb-4">
+                <button type="submit" data-mdb-button-init data-mdb-ripple-init class="btn btn-primary btn-block mb-4">
+                    xác minh email
+                </button>
+            </div>
+        {% elif xac_minh_gmail == 2 %}
+            <div data-mdb-input-init class="form-outline mb-4">
+                <input type="password" id="mat_khau" {% if mat_khau %} value = {{ mat_khau }} {% endif %}class="form-control" name="mat_khau"/>
+                <label class="form-label" for="mat_khau">mật khẩu</label>
+            </div>
+
+            <div data-mdb-input-init class="form-outline mb-4">
+                <input type="password" id="xac_nhan" class="form-control"
+                        {% if xac_nhan %} value = {{ xac_nhan }} {% endif %}  name="xac_nhan" />
+                <label class="form-label" for="xac_nhan">xác nhận</label>
+            </div>
+            <div data-mdb-input-init class="d-flex justify-content-center form-outline mb-4">
+                <button type="submit" data-mdb-button-init data-mdb-ripple-init class="btn btn-primary btn-block mb-4">
+                    xác nhận
+                </button>
+            </div>
+        {% endif %}
+    </form>
+{% endblock %}

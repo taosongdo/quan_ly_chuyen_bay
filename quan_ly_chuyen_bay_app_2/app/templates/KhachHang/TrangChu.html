@@ -1,0 +1,26 @@
+{% extends "Layout/Base.html"%}
+
+{% block content %}
+  {% if so_luong_trang > 1 %}
+
+    <ul class="pagination mt-3">
+      {% for i in range(1, so_luong_trang + 1) %}
+      <li class="page-item"><a class="page-link" href="/?trang={{ i }}">{{ i }}</a></li>
+      {% endfor %}
+  </ul>
+  {% endif %}
+  <div class = "row" >
+    {% for tuyen_bay in ds_tuyen_bay %}
+      <div class="col-md-3 col-12 p-2">
+        <div class="card h-100"  >
+          <img class="card-img-top" src="{{tuyen_bay.hinh_anh}}" alt="Card image">
+          <div class="card-body">
+            <h4 class="card-title">{{tuyen_bay.ten_tuyen_bay}}</h4>
+            <a href="{{url_for("tra_cuu_chuyen_bay",id_tuyen_bay=tuyen_bay.id_tuyen_bay)}}" class="btn btn-primary">xem thêm</a>
+          </div>
+        </div>
+      </div>
+    {% endfor %}
+  </div>
+
+{% endblock%}

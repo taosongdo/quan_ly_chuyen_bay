@@ -1,0 +1,60 @@
+{% extends "Layout/Base.html" %}
+{% block content %}
+    <form class="navbar-form navbar-left" action="/TraCuuChuyenBay" method="GET" style=" margin: 20px">
+        <div class="input-group">
+            {% if link %}
+                <input type="text" class="form-control" value="{{ link }}" name="link" style="display: none" />
+            {% endif %}
+            <select class="form-select" name="id_tuyen_bay" aria-label="Default select example">
+                <option selected value="None">tất cả</option>
+                {% for tuyen_bay in ds_tuyen_bay %}
+                    <option value="{{ tuyen_bay.id_tuyen_bay }}">{{ tuyen_bay }}</option>
+                {% endfor %}
+            </select>
+            <input type="text" class="form-control" placeholder="giờ bay (YYYY-MM-DD HH:MM:SS)" name="ngay_gio">
+            <div class="input-group-btn">
+                <button class="btn btn-primary" type="submit">
+                    tìm kiếm
+                </button>
+            </div>
+        </div>
+    </form>
+    {% if ds_chuyen_bay %}
+        <table class="table table-hover">
+            <thead>
+            <tr>
+                <th scope="col">id chuyến bay</th>
+                <th scope="col">tuyến bay</th>
+                <th scope="col">tên máy bay</th>
+                <th scope="col">ngày giờ</th>
+                <th scope="col">xem thêm</th>
+                {% if link %}
+                    <th scope="col">mua vé</th>
+                {% endif %}
+            </tr>
+            </thead>
+            <tbody>
+            {% for chuyen_bay in ds_chuyen_bay %}
+                <tr>
+                    <th scope="row">{{ chuyen_bay.ChuyenBay.id_chuyen_bay }}</th>
+                    <td>{{ chuyen_bay.TuyenBay.ten_tuyen_bay }}</td>
+                    <td>{{ chuyen_bay.MayBay.ten_may_bay }}</td>
+                    {% if chuyen_bay.LichChuyenBay %}
+                        <td>{{ chuyen_bay.LichChuyenBay.ngay_gio }}</td>
+                        <td><a href="{{ link_chi_tiet }}id_lich_chuyen_bay={{ chuyen_bay.ChuyenBay.id_chuyen_bay }}"
+                               class="btn btn-primary">xem chi tiết</a></td>
+                    {% else %}
+                        <td></td>
+                        <td></td>
+                    {% endif %}
+                    {% if link %}
+                        <td><a href="{{ link }}id_chuyen_bay={{ chuyen_bay.ChuyenBay.id_chuyen_bay }}"
+                               class="btn btn-primary">chọn chuyến</a></td>{% endif %}
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    {% else %}
+        <div class="alert alert-info mt-1">không tìm thấy chuyến bay</div>
+    {% endif %}
+{% endblock %}

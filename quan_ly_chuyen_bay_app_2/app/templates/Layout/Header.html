@@ -1,0 +1,46 @@
+<nav class="navbar navbar-expand-sm bg-dark navbar-dark">
+    <div class="container-fluid">
+      <a class="navbar-brand" href="\" ><img src = "../../static/Images/Van.jpg" style='width:40px'></a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#collapsibleNavbar">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="collapsibleNavbar">
+        <ul class="navbar-nav">
+          {%if session['nguoi_dung']%}
+            <li class="nav-item">
+              <a class="nav-link" href="/TraCuuChuyenBay">tra cứu chuyến bay</a>
+            </li>
+          {%endif%}
+          {% if current_user.is_authenticated%}
+            <li class="nav-item">
+              <a class="nav-link"><img style ="width : 40px"src="{{current_user.anh_dai_dien}}" class="rounded-circle"></a>
+            </li>
+              <a class="nav-link" href="{% if session['nguoi_dung']%} /XemThongTinNguoiDung {%else%}/NhanVien/XemThongTinNguoiDung{%endif %}">{{current_user.ten_nguoi_dung}}</a>
+            </li>
+            {% for muc in ds_muc %}
+            <li class="nav-item">
+              <a class="nav-link" href="{{muc.href}}">{{muc.noi_dung}}{% if muc.href == "/XemGioHang"%} <span id="so-luong" class="badge bg-secondary">{{thong_tin.so_luong}}</span>{%endif%}</a>
+            </li>
+            {% endfor %}
+            <li class="nav-item">
+              <a class="nav-link" href="/DangXuat">đăng xuất</a>
+            </li>
+          {%else%}
+            {% if session['nguoi_dung']%}
+              <li class="nav-item">
+                <a class="nav-link" href="/DangNhap">đăng nhập</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="/DangKy">đăng ký</a>
+              </li>
+            {% endif%}
+          {% endif%}
+          {%if session['nguoi_dung']%}
+          <li class="nav-item">
+            <a class="nav-link" href="/XemBinhLuan">xem bình luận</a>
+          </li>
+          {%endif%}
+        </ul>
+      </div>
+    </div>
+</nav>

@@ -1,0 +1,21 @@
+{%extends "admin/base.html" %}
+{% block body%}
+{% if current_user.is_authenticated %}
+  <h1 class="text-center ">welcome, {{current_user.ten_nguoi_dung}}</h1>
+{% else %}
+  <form action="/admin-login" class ="col-12 col-md-4" style ='margin : 100px auto' method='post'>
+
+      <div data-mdb-input-init class="form-outline mb-4">
+        <input type="text" id="id_tai_khoan" class="form-control" name="tai_khoan" />
+        <label class="form-label" for="id_tai_khoan">tài khoản</label>
+      </div>
+    
+      <div data-mdb-input-init class="form-outline mb-4">
+        <input type="password" id="id_mat_khau" class="form-control" name ="mat_khau" />
+        <label class="form-label" for="id_mat_khau">mật khẩu</label>
+      </div>
+    
+      <button  type="submit" data-mdb-button-init data-mdb-ripple-init class="btn btn-primary btn-block mb-4">Sign in</button>
+  </form>
+{% endif %}
+{% endblock %}

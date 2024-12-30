@@ -1,0 +1,53 @@
+{% extends "Layout/Base.html" %}
+{% block content %}
+    <form class="navbar-form navbar-left" action="/NhanVien/QuanLyKhachHang" method="GET" style="margin: 20px auto">
+        <div class="input-group">
+            <input type="gmail" class="form-control" placeholder="gmail" name="gmail">
+            <input type="number" class="form-control" placeholder="CCCD" name="CCCD">
+            <div class="input-group-btn">
+                <button class="btn btn-primary" type="submit">
+                    tìm kiếm
+                </button>
+            </div>
+        </div>
+    </form>
+    <div data-mdb-input-init class=" d-flex justify-content-center form-outline mb-4">
+        <a href="/NhanVien/QuanLyKhachHang/TaoKhachHang" style="margin-left:20px" class="btn btn-primary">thêm khách
+            hàng</a>
+    </div>
+    {% if ds_khach_hang %}
+        <table class="table table-hover">
+            <thead>
+            <tr>
+                <th scope="col">id khách hàng</th>
+                <th scope="col">tên khách hàng</th>
+                <th scope="col">gmail</th>
+                <th scope="col">CCCD</th>
+                <th scope="col">tài khoản</th>
+                <th scope="col">hoạt động</th>
+                <th scope="col">cập nhật</th>
+                <th scope="col">xóa</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for khach_hang in ds_khach_hang %}
+                <tr>
+                    <th scope="row">{{ khach_hang.id_nguoi_dung }}</th>
+                    <td>{{ khach_hang.ten_nguoi_dung }}</td>
+                    <td>{{ khach_hang.gmail }}</td>
+                    <td>{{ khach_hang.CCCD }}</td>
+                    <td>{{ khach_hang.tai_khoan }}</td>
+                    <td>{{ khach_hang.hoat_dong }}</td>
+                    <td>
+                        <a href="/NhanVien/QuanLyKhachHang/CapNhatKhachHang?id_khach_hang={{ khach_hang.id_nguoi_dung }}"
+                           class="btn btn-primary">cập nhật</a></td>
+                    <td><a href="/NhanVien/QuanLyKhachHang/XoaKhachHang?id_khach_hang={{ khach_hang.id_nguoi_dung }}"
+                           class="btn btn-danger">xóa</a></td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    {% else %}
+        <div class="alert alert-info mt-1">không có khách hàng nào</div>
+    {% endif %}
+{% endblock %}

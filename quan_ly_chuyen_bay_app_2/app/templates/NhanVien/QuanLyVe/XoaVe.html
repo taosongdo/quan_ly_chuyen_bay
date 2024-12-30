@@ -1,0 +1,98 @@
+{% extends "Layout/Base.html" %}
+{% block content %}
+    <form action="/NhanVien/QuanLyVe/XoaVe?id_ve={{ ve.Ve.id_ve }}" method="POST" style='margin : 100px auto'>
+
+        <div data-mdb-input-init style="background-color:pink; text-align:center" class="form-outline mb-4">
+            {{ mes }}
+        </div>
+
+        <div data-mdb-input-init class="form-outline mb-4">
+            <input type="number" readonly id="id_ve" class="form-control" name="id_ve" value="{{ ve.Ve.id_ve }}"/>
+            <label class="form-label" for="id_ve">id vé</label>
+        </div>
+
+        <div data-mdb-input-init class="form-outline mb-4">
+            <input type="number" readonly id="id_khach_hang" class="form-control" name="id_khach_hang"
+                   value="{{ ve.NguoiDung.id_nguoi_dung }}"/>
+            <label class="form-label" for="id_khach_hang">id khách hàng</label>
+        </div>
+
+        <div data-mdb-input-init class="form-outline mb-4">
+            <input type="text" readonly id="ten_khach_hang" class="form-control" name="ten_khach_hang"
+                   value="{{ ve.NguoiDung.ten_nguoi_dung }}"/>
+            <label class="form-label" for="ten_khach_hang">tên khách hàng</label>
+        </div>
+
+        <div data-mdb-input-init class="form-outline mb-4">
+            <input type="number" readonly id="id_chuyen_bay" class="form-control" name="id_chuyen_bay"
+                   value="{{ ve.ChuyenBay.id_chuyen_bay }}"/>
+            <label class="form-label" for="id_chuyen_bay">id chuyến bay</label>
+        </div>
+
+        <div data-mdb-input-init class="form-outline mb-4">
+            <input type="text" readonly id="ten_tuyen_bay" class="form-control" name="ten_tuyen_bay"
+                   value="{{ ve.TuyenBay.ten_tuyen_bay }}"/>
+            <label class="form-label" for="so_dien_thoai">tên tuyến bay</label>
+        </div>
+
+        <div data-mdb-input-init class="form-outline mb-4">
+            <input type="number" readonly id="hang" class="form-control" name="hang" value="{{ ve.Ghe.hang }}"/>
+            <label class="form-label" for="hang">hạng ghế</label>
+        </div>
+
+        <div data-mdb-input-init class="form-outline mb-4">
+            <input type="number" readonly id="vi_tri" class="form-control" name="vi_tri" value="{{ ve.Ghe.vi_tri }}"/>
+            <label class="form-label" for="hang">vị trí</label>
+        </div>
+
+        <div data-mdb-input-init class="form-outline mb-4">
+            <input type="text" readonly id="may_bay" class="form-control" name="may_bay"
+                   value="{{ ve.MayBay.ten_may_bay }}"/>
+            <label class="form-label" for="may_bay">máy bay</label>
+        </div>
+
+        <div data-mdb-input-init class="form-outline mb-4">
+            <input type="text" readonly id="ten_nhan_vien" class="form-control" name="ten_nhan_vien"
+                   value="{% if ve.NhanVien %}{{ ve.ten_nguoi_dung }}{% else %}online{% endif %}"/>
+            <label class="form-label" for="ten_nhan_vien">tên nhân viên</label>
+        </div>
+
+        <div data-mdb-input-init class="form-check">
+            <input class="form-check-input" type="checkbox" value="True" id="flexCheckChecked"
+                   name="hinh_thuc_hoan_tra">
+            <label class="form-check-label" for="flexCheckChecked">
+                thanh toán online
+            </label>
+        </div>
+
+        <div data-mdb-input-init class="form-outline mb-4">
+            <input type="number" id="so_tai_khoan" class="form-control" name="so_tai_khoan"/>
+            <label class="form-label" for="so_tai_khoan">số tài khoản</label>
+        </div>
+
+        <div data-mdb-input-init class="d-flex justify-content-center form-outline mb-4">
+            <table>
+                {% for hang in bang %}
+                    <tr>
+                        {% for ngan_hang in hang %}
+                            <td>
+                                <input type="radio" class="btn-check" name='id_ngan_hang'
+                                       value="{{ ngan_hang.id_ngan_hang }}"
+                                       id="id_ngan_hang_{{ ngan_hang.id_ngan_hang }}" autocomplete="off">
+                                <label class="btn btn-outline-success" for="id_ngan_hang_{{ ngan_hang.id_ngan_hang }}">
+                                    <img src="{{ ngan_hang.hinh_anh }}" style="width:80px; height: 80px"/>
+                                </label>
+                            </td>
+                        {% endfor %}
+                    </tr>
+                {% endfor %}
+            </table>
+        </div>
+
+        <div data-mdb-input-init class="d-flex justify-content-center form-outline mb-4">
+            <button type="submit" data-mdb-button-init data-mdb-ripple-init class="btn btn-primary btn-block mb-4">hủy
+                vé
+            </button>
+        </div>
+    </form>
+{% endblock %}

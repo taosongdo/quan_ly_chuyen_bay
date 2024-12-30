@@ -1,0 +1,60 @@
+{% extends "KhachHang/ThongTinNguoiDung/Header_KhachHang.html"%}
+{% block content%}
+
+<form action="/XemThongTinNguoiDung?sl_so_dien_thoai={{sl_so_dien_thoai}}"  enctype="multipart/form-data" style = 'margin : 100px auto' method = 'post'>
+
+    {% if mes %}
+        <div class="alert alert-danger text-center mt-1">{{mes}}</div>
+    {% endif%}
+
+   <div data-mdb-input-init class="form-outline mb-4">
+     <input type="text" id="ten_nguoi_dung" class="form-control" value="{{current_user.ten_nguoi_dung}}" name="ten_nguoi_dung" />
+     <label class="form-label" for="ten_nguoi_dung">tên</label>
+   </div>
+
+    {%for so_dem in range(sl_so_dien_thoai)%}
+      <div data-mdb-input-init class="form-outline mb-4">
+        <input type="number" id="so_dien_thoai_{{so_dem}}" class="form-control" {%if ds_so_dien_thoai[so_dem]%} value="{{ds_so_dien_thoai[so_dem].so_dien_thoai}}"{%endif%} name="so_dien_thoai_{{so_dem}}" />
+        <label class="form-label" for="so_dien_thoai_{{so_dem}}">số điện thoại {{so_dem+1}}</label>
+      </div>
+    {% endfor %}
+
+    {% if sl_so_dien_thoai > 1%}
+      <div data-mdb-input-init class="form-outline mb-4">
+        <a class="btn btn-danger" href="/XemThongTinNguoiDung?sl_so_dien_thoai={{sl_so_dien_thoai-1}}">giảm số điện thoại</a>
+      </div>
+    {% endif%}
+
+    {% if sl_so_dien_thoai < 3%}
+        <div data-mdb-input-init class="form-outline mb-4">
+            <a class="btn btn-primary" href="/XemThongTinNguoiDung?sl_so_dien_thoai={{sl_so_dien_thoai+1}}">tăng số điện thoại</a>
+        </div>
+    {% endif%}
+ 
+   <div data-mdb-input-init class="form-outline mb-4">
+     <input type="number" id="CCCD" class="form-control" value="{{current_user.CCCD}}" name="CCCD" />
+     <label class="form-label" for="CCCD">căn cước công dân</label>
+   </div>
+
+   <div data-mdb-input-init class="form-outline mb-4">
+    <input type="email" id="gmail" readonly class="form-control" value = "{{ current_user.gmail }}" name="gmail"/>
+    <label class="form-label" for="gmail">gmail</label>
+  </div>
+ 
+   <div data-mdb-input-init class="form-outline mb-4">
+     <input type="password" id="mat_khau" class="form-control"  name ="mat_khau" />
+     <label class="form-label" for="mat_khau">mật khẩu</label>
+   </div>
+   <div data-mdb-input-init class="form-outline mb-4">
+    <input type="password" id="xac_nhan" class="form-control"  name ="xac_nhan" />
+    <label class="form-label" for="xac_nhan">xác nhận</label>
+  </div>
+  <div data-mdb-input-init class="form-outline mb-4">
+    <input type="file" id="anh_dai_dien" class="form-control" name ="anh_dai_dien" />
+    <label class="form-label" for="anh_dai_dien">ảnh đại diện</label>
+  </div>
+  <div data-mdb-input-init class="d-flex justify-content-center form-outline mb-4">
+    <button  type="submit" data-mdb-button-init data-mdb-ripple-init class="btn btn-primary btn-block mb-4">cập nhật thông tin</button>
+  </div>
+ </form>
+{% endblock %}

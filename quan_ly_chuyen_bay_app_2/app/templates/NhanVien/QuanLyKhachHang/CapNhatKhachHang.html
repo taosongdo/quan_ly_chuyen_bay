@@ -1,0 +1,76 @@
+{% extends "Layout/Base.html" %}
+{% block content %}
+    <form action="/NhanVien/QuanLyKhachHang/CapNhatKhachHang?id_khach_hang={{ khach_hang.id_nguoi_dung }}&#38;sl_so_dien_thoai={{sl_so_dien_thoai}}"
+          style='margin : 100px auto' method='post'>
+        {% if err %}
+            <div class="alert alert-danger text-center mt-1">{{ err }}</div>
+        {% endif %}
+
+        <div data-mdb-input-init class="form-outline mb-4">
+            <input type="number" id="id_nguoi_dung" class="form-control" value="{{ khach_hang.id_nguoi_dung }}" disabled
+                   name="id_nguoi_dung"/>
+            <label class="form-label" for="id_nguoi_dung">id người dùng</label>
+        </div>
+
+        <div data-mdb-input-init class="form-outline mb-4">
+            <input type="text" id="ten_nguoi_dung" class="form-control" value="{{ khach_hang.ten_nguoi_dung }}"
+                   name="ten_nguoi_dung"/>
+            <label class="form-label" for="ten_nguoi_dung">tên người dùng</label>
+        </div>
+
+        {%for so_dem in range(sl_so_dien_thoai)%}
+        <div data-mdb-input-init class="form-outline mb-4">
+            <input type="number" id="so_dien_thoai_{{so_dem}}" {% if ds_so_dien_thoai[so_dem] %}value = {{ds_so_dien_thoai[so_dem].so_dien_thoai}} {%endif%} class="form-control" name="so_dien_thoai_{{so_dem}}" />
+            <label class="form-label" for="so_dien_thoai_{{so_dem}}">số điện thoại {{so_dem+1}}</label>
+        </div>
+        {% endfor %}
+
+        {% if sl_so_dien_thoai > 1%}
+        <div data-mdb-input-init class="form-outline mb-4">
+            <a class="btn btn-danger" href="/NhanVien/QuanLyKhachHang/CapNhatKhachHang?sl_so_dien_thoai={{sl_so_dien_thoai-1}}&#38;id_khach_hang={{khach_hang.id_nguoi_dung}}">giảm số điện thoại</a>
+        </div>
+        {% endif%}
+
+        {% if sl_so_dien_thoai < 3%}
+            <div data-mdb-input-init class="form-outline mb-4">
+                <a class="btn btn-primary" href="/NhanVien/QuanLyKhachHang/CapNhatKhachHang?sl_so_dien_thoai={{sl_so_dien_thoai+1}}&#38;id_khach_hang={{khach_hang.id_nguoi_dung}}">tăng số điện thoại</a>
+            </div>
+        {% endif%}
+
+        <div data-mdb-input-init class="form-outline mb-4">
+            <input type="text" readonly id="gmail"value = "{{khach_hang.gmail}}" class="form-control" name="gmail"  />
+            <label class="form-label" for="gmail">gmail</label>
+        </div>
+
+        <div data-mdb-input-init class="form-outline mb-4">
+            <input type="number" id="CCCD" class="form-control" value="{{ khach_hang.CCCD }}" name="CCCD"/>
+            <label class="form-label" for="CCCD">căn cước công dân</label>
+        </div>
+
+        <div data-mdb-input-init class="form-outline mb-4">
+            <input type="text" id="tai_khoan" class="form-control" value="{{ khach_hang.tai_khoan }}" name="tai_khoan"/>
+            <label class="form-label" for="CCCD">tài khoản</label>
+        </div>
+
+        <div data-mdb-input-init class="form-outline mb-4">
+            <input type="password" id="mat_khau" class="form-control" value="{{ khach_hang.mat_khau }}" readonly
+                   name="mat_khau"/>
+            <label class="form-label" for="mat_khau">mật khẩu</label>
+        </div>
+
+
+        <div class="form-check">
+            <input class="form-check-input" type="checkbox" value="True" id="flexCheckChecked"
+                    {% if khach_hang.hoat_dong %} checked{% endif %} name="hoat_dong">
+            <label class="form-check-label" for="flexCheckChecked">
+                hoạt động
+            </label>
+        </div>
+
+        <div data-mdb-input-init class=" d-flex justify-content-center form-outline mb-4">
+            <button type="submit" data-mdb-button-init data-mdb-ripple-init class="btn btn-primary btn-block mb-4">cập
+                nhật thông tin
+            </button>
+        </div>
+    </form>
+{% endblock %}

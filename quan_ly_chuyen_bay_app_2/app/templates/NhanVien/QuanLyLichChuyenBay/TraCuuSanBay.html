@@ -1,0 +1,49 @@
+{% extends "Layout/Base.html" %}
+{% block content %}
+    <form class="navbar-form navbar-left" action="/NhanVien/QuanLyLichChuyenBay/TraCuuSanBay" method="GET"
+          style="margin: 20px auto">
+        <div class="input-group">
+            {% if id_chuyen_bay %}
+                <input style="display: none" type="text" class="form-control" value="{{ id_chuyen_bay }}" name="id_chuyen_bay">
+            {% else %}
+                <input style="display: none" type="text" class="form-control" value="{{ id_lich_chuyen_bay }}" name="id_lich_chuyen_bay">
+            {% endif %}
+
+            <input style="display: none" type="text" class="form-control" value="{{ so_luong_san_bay }}" name="so_luong_san_bay">
+
+            {% for so_dem in range(so_luong_san_bay) %}
+                <input style="display: none" type="text" class="form-control" value="{{ ds_id_san_bay_da_co[so_dem] }}" name="id_san_bay_{{ so_dem }}">
+            {% endfor %}
+
+            <input type="text" class="form-control" placeholder="tên sân bay" name="ten_san_bay">
+            <div class="input-group-btn">
+                <button class="btn btn-primary" type="submit">
+                    tìm kiếm
+                </button>
+            </div>
+        </div>
+    </form>
+    {% if ds_san_bay %}
+        <table class="table table-hover">
+            <thead>
+            <tr>
+                <th scope="col">id sân bay</th>
+                <th scope="col">tên sân bay</th>
+                <th scope="col">chọn</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for san_bay in ds_san_bay %}
+                <tr>
+                    <th scope="row">{{ san_bay.id_san_bay }}</th>
+                    <td>{{ san_bay.ten_san_bay }}</td>
+                    <td>
+                        <a href="/NhanVien/QuanLyLichChuyenBay/{{ link }}&#38;id_san_bay_{{ so_luong_san_bay }}={{ san_bay.id_san_bay }}&#38;so_luong_san_bay={{ so_luong_san_bay + 1 }}" class="btn btn-primary">chọn</a></td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    {% else %}
+        <div class="alert alert-info mt-1">không có sân bay nào</div>
+    {% endif %}
+{% endblock %}

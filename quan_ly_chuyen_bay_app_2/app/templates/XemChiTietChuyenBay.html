@@ -1,0 +1,63 @@
+{% extends "Layout/Base.html" %}
+{% block content %}
+    <div style ="margin-top: 100px">
+        <div data-mdb-input-init class="form-outline mb-4">
+            <input type="text" readonly id="chuyen_bay" class="form-control" name="chuyen_bay"
+                value="{{ chi_tiet_lich_chuyen_bay[0].ChuyenBay }}">
+            <label class="form-label" for="chuyen_bay">chuyến bay</label>
+        </div>
+
+        <div data-mdb-input-init class="form-outline mb-4">
+            <input type="text" readonly id="ngay_gio" class="form-control"
+                value="{{ chi_tiet_lich_chuyen_bay[0].LichChuyenBay.ngay_gio }}" name="ngay_gio"/>
+            <label class="form-label" for="ngay_gio">ngày giờ</label>
+        </div>
+
+        <div data-mdb-input-init class="form-outline mb-4">
+            <input type="text" readonly id="thoi_gian_bay" class="form-control"
+                value="{{ chi_tiet_lich_chuyen_bay[0].LichChuyenBay.thoi_gian_bay }}" name="thoi_gian_bay"/>
+            <label class="form-label" for="thoi_gian_bay">thời gian bay</label>
+        </div>
+
+        {% for so_dem_san_bay in range(chi_tiet_lich_chuyen_bay|length) %}
+            {% if chi_tiet_lich_chuyen_bay[so_dem_san_bay].SanBayTrungGian %}
+                {% if so_dem_san_bay == 0 %}
+                    <div data-mdb-input-init class="form-outline mb-4"
+                        style="height: 10px; background-color:lightblue"></div>
+                {% endif %}
+                <div style="display: none" data-mdb-input-init class="form-outline mb-4">
+                    <input type="text" id="id_san_bay_{{ so_dem_san_bay }}" class="form-control"
+                        value="{{ chi_tiet_lich_chuyen_bay[so_dem_san_bay].SanBay.id_san_bay }}"
+                        name="id_san_bay_{{ so_dem_san_bay }}" readonly/>
+                </div>
+                <div data-mdb-input-init class="form-outline mb-4">
+                    <input type="text" id="san_bay_{{ so_dem_san_bay }}" class="form-control"
+                        value="{{ chi_tiet_lich_chuyen_bay[so_dem_san_bay].SanBay }}" name="san_bay_{{ so_dem_san_bay }}"
+                        readonly/>
+                    <label class="form-label" for="san_bay_{{ so_dem_san_bay }}">sân bay</label>
+                </div>
+                <div data-mdb-input-init class="form-outline mb-4">
+                    <input type="text" id="thoi_gian_dung_{{ so_dem_san_bay }}" class="form-control"
+                        value="{{ chi_tiet_lich_chuyen_bay[so_dem_san_bay].SanBayTrungGian.thoi_gian_dung }}"
+                        name="thoi_gian_dung_{{ so_dem_san_bay }}" readonly/>
+                    <label class="form-label" for="thoi_gian_dung_{{ so_dem_san_bay }}">thời gian dừng</label>
+                </div>
+                <div data-mdb-input-init class="form-outline mb-4">
+                    <input type="text" id="ghi_chu_{{ so_dem_san_bay }}" class="form-control"
+                        value="{{ chi_tiet_lich_chuyen_bay[so_dem_san_bay].SanBayTrungGian.ghi_chu }}"
+                        name="ghi_chu_{{ so_dem_san_bay }}" readonly/>
+                    <label class="form-label" for="ghi_chu_{{ so_dem_san_bay }}">ghi chú</label>
+                </div>
+                <div data-mdb-input-init class="form-outline mb-4" style="height: 10px; background-color:lightblue"></div>
+            {% endif %}
+        {% endfor %}
+
+
+
+
+    </div>
+    <div data-mdb-input-init class="d-flex justify-content-center form-outline mb-4">
+        <a data-mdb-button-init data-mdb-ripple-init href="{{ link }}" class="btn btn-primary btn-block mb-4">trở về
+            trang trước</a>
+    </div>
+{% endblock %}

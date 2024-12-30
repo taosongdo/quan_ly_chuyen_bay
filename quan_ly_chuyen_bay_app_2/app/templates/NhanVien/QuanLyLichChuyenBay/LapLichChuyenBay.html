@@ -1,0 +1,81 @@
+{% extends "Layout/Base.html" %}
+{% block content %}
+
+    <form action="/NhanVien/QuanLyLichChuyenBay/LapLichChuyenBay?{{ link }}" style='margin : 100px auto' method='post'>
+        {% if err %}
+            <div class="alert alert-danger text-center mt-1">{{ err }}</div>
+        {% endif %}
+        <div data-mdb-input-init class="d-flex justify-content-center form-outline mb-4">
+            <a data-mdb-button-init data-mdb-ripple-init href="/TraCuuChuyenBay?link={{ link_tra_cuu_chuyen_bay }}"
+               class="btn btn-primary btn-block mb-4">chọn chuyến bay</a>
+        </div>
+        {% if chuyen_bay %}
+            <div data-mdb-input-init class="form-outline mb-4">
+                <input style="display:none" type="text" readonly id="id_chuyen_bay" class="form-control"
+                       name="id_chuyen_bay" value="{{ chuyen_bay.ChuyenBay.id_chuyen_bay }}">
+            </div>
+            <div data-mdb-input-init class="form-outline mb-4">
+                <input type="text" readonly id="chuyen_bay" class="form-control" name="chuyen_bay"
+                       value="{{ chuyen_bay.ChuyenBay }}">
+                <label class="form-label" for="chuyen_bay">chuyến bay</label>
+            </div>
+        {% endif %}
+
+        <div data-mdb-input-init class="form-outline mb-4">
+            <input type="text" id="ngay_gio" class="form-control" name="ngay_gio" placeholder="YYYY-MM-DD hh:mm:ss"/>
+            <label class="form-label" for="ngay_gio">ngày giờ</label>
+        </div>
+
+        <div data-mdb-input-init class="form-outline mb-4">
+            <input type="text" id="thoi_gian_bay" class="form-control" name="thoi_gian_bay" placeholder="hh:mm:ss"/>
+            <label class="form-label" for="thoi_gian_bay">thời gian bay</label>
+        </div>
+        {% if chuyen_bay %}
+            {% for so_dem_san_bay in range(so_luong_san_bay) %}
+                {% if so_dem_san_bay == 0 %}
+                    <div data-mdb-input-init class="form-outline mb-4"
+                         style="height: 10px; background-color:lightblue"></div>
+                {% endif %}
+                <div style="display: none" data-mdb-input-init class="form-outline mb-4">
+                    <input type="text" id="id_san_bay_{{ so_dem_san_bay }}" class="form-control"
+                           value="{{ ds_san_bay[so_dem_san_bay].id_san_bay }}" name="id_san_bay_{{ so_dem_san_bay }}"
+                           readonly/>
+                </div>
+                <div data-mdb-input-init class="form-outline mb-4">
+                    <input type="text" id="san_bay_{{ so_dem_san_bay }}" class="form-control"
+                           value="{{ ds_san_bay[so_dem_san_bay] }}" name="san_bay_{{ so_dem_san_bay }}" readonly/>
+                    <label class="form-label" for="san_bay_{{ so_dem_san_bay }}">sân bay</label>
+                </div>
+                <div data-mdb-input-init class="form-outline mb-4">
+                    <input type="text" id="thoi_gian_dung_{{ so_dem_san_bay }}" class="form-control"
+                           name="thoi_gian_dung_{{ so_dem_san_bay }}" placeholder=" hh:mm:ss"/>
+                    <label class="form-label" for="thoi_gian_dung_{{ so_dem_san_bay }}">thời gian dừng</label>
+                </div>
+                <div data-mdb-input-init class="form-outline mb-4">
+                    <input type="text" id="ghi_chu_{{ so_dem_san_bay }}" class="form-control"
+                           name="ghi_chu_{{ so_dem_san_bay }}"/>
+                    <label class="form-label" for="ghi_chu_{{ so_dem_san_bay }}">ghi chú</label>
+                </div>
+                <div data-mdb-input-init class="form-outline mb-4">
+                    <a data-mdb-button-init data-mdb-ripple-init
+                       href="/NhanVien/QuanLyLichChuyenBay/XoaSanBay?{{ link }}&#38;so_dem_san_bay={{ so_dem_san_bay }}"
+                       class="btn btn-danger btn-block mb-4">xóa</a>
+                </div>
+                <div data-mdb-input-init class="form-outline mb-4"
+                     style="height: 10px; background-color:lightblue"></div>
+            {% endfor %}
+            <div data-mdb-input-init class="form-outline mb-4">
+                <a data-mdb-button-init data-mdb-ripple-init
+                   href="/NhanVien/QuanLyLichChuyenBay/TraCuuSanBay?{{ link }}" class="btn btn-primary btn-block mb-4">thêm
+                    sân bay</a>
+            </div>
+        {% endif %}
+        {% if chuyen_bay %}
+            <div data-mdb-input-init class=" d-flex justify-content-center form-outline mb-4">
+                <button type="submit" data-mdb-button-init data-mdb-ripple-init class="btn btn-primary btn-block mb-4">
+                    Lập lịch chuyến bay
+                </button>
+            </div>
+        {% endif %}
+    </form>
+{% endblock %}

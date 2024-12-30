@@ -1,0 +1,42 @@
+{% extends "Layout/Base.html"%}
+
+{% block content %}
+{% if current_user.is_authenticated %}
+<div class="mt-2">
+    <textarea class="form-control" rows="5" id="binhLuan" placeholder="Noi dung binh luan..."></textarea>
+    <a class="btn btn-primary mt-1" href = "/XemThongTinNguoiDung/XemLichSu">{%if ve %} vé {{ ve.Ve.id_ve }} - {{ve.TuyenBay.ten_tuyen_bay}} {% else %}chọn vé{% endif %}</a>
+    {% if ve %}
+        <button class="btn btn-success mt-1" onclick="themBinhLuan({{ ve.Ve.id_ve }})">Bình luận</button>
+    {% endif %}
+</div>
+{% else %}
+<div class="alert alert-info mt-1">Vui lòng <a href="/DangNhap?link=/XemBinhLuan">đăng nhập</a> để bình luận!</div>
+{% endif %}
+<ul class="list-group mt-2" id="dsBinhLuan">
+    {% for ve in ds_ve %}
+        {% if ve.BinhLuan %}
+        <li class="list-group-item">
+            <div class="row">
+                <div class="col-md-1 col-4">
+                    <img src="{{ ve.NguoiDung.anh_dai_dien }}" class="img-fluid rounded-circle" />
+                </div>
+                <div class="col-md-11 col-8">
+                    <p>người dùng: {{ ve.NguoiDung.tai_khoan }}</p>
+                    <p>tuyến bay: {{ ve.TuyenBay.ten_tuyen_bay }}</p>
+                    <p>nội dung: {{ ve.BinhLuan.noi_dung }}</p>
+                    <p class="date">{{ ve.BinhLuan.thoi_gian }}</p>
+                </div>
+            </div>
+        </li>
+        {% endif %}
+    {% endfor %}
+</ul>
+<script>
+    window.onload = function() {
+        let dates = document.getElementsByClassName("date");
+        for (let d of dates)
+            d.innerText = moment(d.innerText).locale("vi").fromNow();
+    }
+</script>
+
+{% endblock%}

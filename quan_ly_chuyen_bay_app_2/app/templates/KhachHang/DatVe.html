@@ -1,0 +1,56 @@
+{% extends "Layout/Base.html" %}
+{% block content%}
+<div style ='margin : 100px auto'>
+    <div data-mdb-input-init class="form-outline mb-4">
+        <input type="text" readonly id="ten_nguoi_dung" class="form-control" name="ten_nguoi_dung" value="{{current_user.ten_nguoi_dung}}" />
+        <label class="form-label" for="ten_nguoi_dung">tên</label>
+    </div>
+
+    <div data-mdb-input-init class="form-outline mb-4">
+        <input type="number" readonly id="CCCD" class="form-control" name="CCCD" value ="{{current_user.CCCD}}" />
+        <label class="form-label" for="CCCD">căn cước công dân</label>
+    </div>
+
+    <div data-mdb-input-init class="form-outline mb-4">
+        <input type="text" readonly id="gmail"value = "{{current_user.gmail}}" class="form-control" name="gmail"  />
+        <label class="form-label" for="gmail">gmail</label>
+    </div>
+
+    <div data-mdb-input-init class="form-outline mb-4 d-flex justify-content-center">
+        <a data-mdb-button-init data-mdb-ripple-init href="/TraCuuChuyenBay?link={{link}}" class="btn btn-primary btn-block mb-4">chọn chuyến bay</a>
+    </div>
+    
+    {% if chuyen_bay.ChuyenBay%}
+        <div data-mdb-input-init class="form-outline mb-4">
+            <input type="text" readonly id="chuyen_bay" class="form-control" name="chuyen_bay" value="{{chuyen_bay.ChuyenBay}}">
+        </div>
+        {% for bang_ghe in ds_bang_ghe%}
+            <div data-mdb-input-init class="d-flex justify-content-center form-outline mb-4">
+                <table>
+                    {% for hang_ghe in bang_ghe%} 
+                        <tr>
+                            {% for ghe in hang_ghe %}
+                                <td>
+                                    <input type="radio" class="btn-check" name='id_ghe' value="id_ghe_{{ghe.id_ghe}}" onclick = "chonGhe({{ghe.id_ghe}})" id="id_ghe_{{ghe.id_ghe}}" autocomplete="off" {% if dict_ve[ghe][chuyen_bay.ChuyenBay] != None%}disabled{% endif%}>
+                                    <label class="btn btn-outline-success" for="id_ghe_{{ghe.id_ghe}}">
+                                        {% if ghe.vi_tri - 10 < 0 %} 
+                                            00{{ghe.vi_tri}}
+                                        {% elif ghe.vi_tri -100 < 0%}
+                                            0{{ghe.vi_tri}}
+                                        {% else %}
+                                            {{ghe.vi_tri}}
+                                        {%endif%}
+                                    </label>
+                                </td>
+                            {% endfor %}
+                        </tr>
+                    {% endfor %}
+                </table>
+            </div>
+        {% endfor %}
+        <div data-mdb-input-init class="d-flex justify-content-center form-outline mb-4">
+            <button type = "button" onclick ="themGioHang({{chuyen_bay.ChuyenBay.id_chuyen_bay}},{{current_user.id_nguoi_dung}})"data-mdb-button-init data-mdb-ripple-init class="btn btn-primary btn-block mb-4">Đặt vé</button>
+        </div>
+    {%endif%}
+</div>
+{% endblock %}
