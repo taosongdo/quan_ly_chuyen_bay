@@ -298,8 +298,8 @@ def dang_ky():
 def dang_nhap():
     if not (current_user.is_authenticated and current_user.user_role == UserRole.NHAN_VIEN):
         err = None
+        link = request.args.get("link")
         if request.method == 'POST':
-            link = request.args.get("link")
             tai_khoan = request.form.get("tai_khoan").strip()
             mat_khau = request.form.get("mat_khau").strip()
             khach_hang = dao.kiem_tra_tai_khoan(tai_khoan=tai_khoan, mat_khau=mat_khau, user_role=UserRole.KHACH_HANG)
@@ -310,7 +310,7 @@ def dang_nhap():
                 return redirect("/")
             else:
                 err = "sai mật khẩu hoặc tài khoản"
-        return render_template("KhachHang/DangNhap.html", err=err)
+        return render_template("KhachHang/DangNhap.html", err=err,link=link)
     else:
         return redirect("/NhanVien")
 

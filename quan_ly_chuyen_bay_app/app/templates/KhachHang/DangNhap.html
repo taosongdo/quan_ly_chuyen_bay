@@ -1,7 +1,7 @@
 
 {%extends "Layout/Base.html" %}
 {% block content%}
-<form action="/DangNhap" style ='margin : 100px auto' method='post'>
+<form action="/DangNhap?link={{link}}" style ='margin : 100px auto' method='post'>
   {% if err %}
     <div class="alert alert-danger text-center mt-1">{{err}}</div>
   {% endif%}
