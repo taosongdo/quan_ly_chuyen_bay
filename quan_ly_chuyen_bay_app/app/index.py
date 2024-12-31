@@ -298,7 +298,7 @@ def dang_ky():
 def dang_nhap():
     if not (current_user.is_authenticated and current_user.user_role == UserRole.NHAN_VIEN):
         err = None
-        link = request.args.get("link")
+        link =  request.args.get("link") if request.args.get("link") != "None" else None
         if request.method == 'POST':
             tai_khoan = request.form.get("tai_khoan").strip()
             mat_khau = request.form.get("mat_khau").strip()
